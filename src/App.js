@@ -1,25 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
-
+import PanelTask from "./Models/PanelTask";
+import PanelTimer from "./Models/PanelTimer";
+import './Assets/Home.css'
+import './App.css'
+import TaskContext from "./Hooks/TaskHook";
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <TaskContext>
+      <div id="container">
+        <PanelTask></PanelTask>
+        <PanelTimer></PanelTimer>
+      </div>
+    </TaskContext>
+    );
 }
 
 export default App;

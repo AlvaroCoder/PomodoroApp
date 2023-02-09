@@ -1,0 +1,264 @@
+button{
+    border: none;
+    outline: none;
+    background-color: #F5F3F4;
+    cursor: pointer;
+}
+input{
+    outline: none;
+    font-family: 'Inria Serif', serif;
+    font-family: 'Montserrat', sans-serif;
+    font-family: 'Poppins', sans-serif;
+}
+p{
+    margin: 0;
+}
+
+#container{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    font-size: 1rem;
+    font-family: 'Inria Serif', serif;
+    color: #FFFFFF;
+    background-color: rgba(164, 22, 26, .9);
+}
+nav{
+    width: 3em;
+    height: 100vh;
+    background-color: #F5F5F5;
+}
+.container-task{
+    width: 30vw;
+    height: 100vh;
+    background-color: rgba(186, 24, 27, .4);
+    display: flex;
+    flex-direction: column;
+    padding: 0px 2pc 0px 2pc;
+    box-sizing: border-box;
+}
+.section-task{
+    width: 100%;
+    height: auto;
+    max-height: 80%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(300px, 1fr));
+    grid-gap: .5pc;
+}
+.task{
+    background-color: #ffffff;
+    color: #161A1D;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.task:hover{
+    border-left: #D9D9D9 4px solid;
+}
+#task-selected{
+    border-left: #161A1D 4px solid;
+}
+.task-top{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 0;
+}
+.task-bottom{
+    width: 13pc;
+    height: auto;
+    margin-left: 20px;
+    margin-top: 5px;
+    padding: 2px;
+    border-radius: 4px;
+    background-color: #F5F3F4;
+    -webkit-box-shadow: 4px 6px 9px -4px rgba(11,9,10,0.5);
+    -moz-box-shadow: 4px 6px 9px -4px rgba(11,9,10,0.5);
+    box-shadow: 4px 6px 9px -4px rgba(11,9,10,0.5);
+}
+.task-state{
+    width: 7pc;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.task-name{
+    margin-left: 5px;
+    width: 10pc;
+}
+
+.icon{
+    width: 20px;
+    height: 20px;
+    background-size: cover;
+}
+/*------------------------------------------------- TIMER --------------------------------------*/
+.container-timer{
+    width: 50%;
+    height: 60vh;
+    background-color: rgba(255, 255, 255, .1);
+    box-sizing: border-box;
+    padding: 4px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 7px;
+}
+.panel-timer{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.timer-buttons{
+    margin-top: 10px;
+}
+#button-play, #button-stop{
+    background-color: #FFFFFF;
+    border-radius: 5px;
+    padding: 1em 4em 1em 4em;
+}
+#button-play{
+    border-bottom: #D3D3D3 5px solid;
+}
+#play, #pause{
+    color: #A4161A;
+    font-size: 1rem;
+    font-weight: bold;
+}
+.timer{
+    position: relative;
+}
+.container-label-timer{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 5em;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+.title-timer{
+    padding: 0;
+    font-size: 1.1rem;
+}
+.timer-title{
+    margin-bottom: 7px;
+}
+/*---------------------------------Pomodoro Title-----------------------------------*/
+
+.ctn-pomodoro-title{
+    width: 70%;
+    height: 6vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.item-title{
+    font-size: 1.1em;
+    padding: 0;
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-bottom: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: all 300ms ease-in-out;
+}
+#item-title-active{
+    font-weight: 700;
+    border-bottom: #FFFFFF 3px solid;
+}
+/*----------------------------------- Add Task Component ---------------------------------*/
+.ctn-btn-add{
+    margin-top: 10px;
+    width: 50%;
+    display: flex ;
+    flex-direction: column;
+    cursor: pointer;
+}
+.btn-add-task{
+    text-align: center;
+    background-color: rgba(229, 56, 59, .4);
+    color: #FFFFFF;
+    padding-top: 1.5pc;
+    font-weight: bold;
+    padding-bottom: 1.5pc;
+    border-radius: 10px;
+}
+#active{
+    display: block;
+}
+#inactive{
+    display: none;
+}
+.ctn-details{
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    transition: all 300ms ease-in-out;
+    color: #161A1D;
+    padding: 7px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.ctn-details .box-details{
+    display: flex;
+    flex-direction: column;
+}
+.btn-task{
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 5px;
+    border-radius: 5px;
+}
+#save-task{
+    background-color: #161A1D;
+    color: #FFFFFF;
+    padding: 7px;
+}
+#cancel-task{
+    padding: 7px;
+}
+#sec-btns{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+#sec-pomodoros{
+    display: flex;
+    flex-direction: row;
+}
+#sec-pomodoros .btn-pomodoro{
+    border: #D3D3D3 2px solid;
+    border-radius: 5px;
+    margin-left: 7px;
+    outline: none;
+}
+.input-task{
+    position: relative;
+    border: #D3D3D3 2px solid;
+    outline: none;
+    border-radius: 10px;
+    padding: 5px;
+}
+textarea{
+    height: 5em;
+    resize: none;
+    font-family: 'Inria Serif', serif;
+    font-family: 'Montserrat', sans-serif;
+    font-family: 'Poppins', sans-serif;
+}
