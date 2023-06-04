@@ -10,6 +10,9 @@ function Task({data}) {
         e.preventDefault();
         taskContext.changeStatus(pos);
     }
+    const DeleteTask = (e)=>{
+        taskContext.deleteTask(pos);
+    }
   return (
     <div id={seleccionado ? 'task-selected':''} className='task' onClick={handleClick}>
         <div className='task-top'>
@@ -19,6 +22,9 @@ function Task({data}) {
             </div>
             <div className='pomodoros-task'>
                 <span>{pomodorosEnd}/{pomodoros}</span>
+            </div>
+            <div className='delete'>
+                <i onClick={DeleteTask} className='bx bx-trash text-delete'></i>
             </div>
         </div>
         {description !=='' && <div className='task-bottom'>

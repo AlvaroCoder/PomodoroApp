@@ -7,8 +7,8 @@ function PomodoroTitle() {
   return (
     <div className='ctn-pomodoro-title'>
       {
-        arr.map((val)=>{
-          return <Title name={val.name} isSelected={val.isSelected} pos={val.pos}></Title>  
+        arr.map((val,key)=>{
+          return <Title key={key} name={val.name} isSelected={val.isSelected} pos={val.pos}></Title>  
         })
       }
     </div>

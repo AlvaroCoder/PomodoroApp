@@ -37,6 +37,8 @@ function Timer({title}) {
     console.log(start);
   }
   const changeReset = (evt)=>{
+    evt.preventDefault();
+    setStart(s=>!s);
     resetTime();
   }
   return (
@@ -62,7 +64,7 @@ function Timer({title}) {
         {
           start ? 
           <div>
-            <button id='button-stop'><p id='pause' onClick={changeStart} >PAUSE</p></button> 
+            <button id='button-stop' onClick={changeStart}><p id='pause'  >PAUSE</p></button> 
             <button id='button-reset' onClick={changeReset}><p id='reset'>RESET</p></button>
           </div>
           : <div>

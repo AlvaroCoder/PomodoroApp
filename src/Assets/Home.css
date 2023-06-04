@@ -1,3 +1,8 @@
+:root{
+    --primary-color : #161A1D;
+    --secondary-color : #F5F3F4;
+}
+
 button{
     border: none;
     outline: none;
@@ -64,8 +69,26 @@ nav{
 .task-top{
     display: flex;
     flex-direction: row;
+    align-items: center;
+    min-height: 30px;
     width: 100%;
     padding: 0;
+}
+.delete{
+    min-width: 60px;
+    text-align: center;
+    font-size: 18px;
+    color: var(--primary-color);
+}
+.text-delete{
+    border: #161a1d8c 1px solid;
+    border-radius: 2px ;
+    padding: 1px;
+    z-index: 1000;
+    transition: .5s ease-in-out;
+}
+.text-delete:hover{
+    background-color: #a4161b42;
 }
 .task-bottom{
     width: 13pc;
@@ -122,15 +145,18 @@ nav{
 .timer-buttons{
     margin-top: 10px;
 }
-#button-play, #button-stop{
+#button-play, #button-stop, #button-reset{
     background-color: #FFFFFF;
     border-radius: 5px;
     padding: 1em 4em 1em 4em;
 }
+#button-reset{
+    margin-left: 15px;
+}
 #button-play{
     border-bottom: #D3D3D3 5px solid;
 }
-#play, #pause{
+#play, #pause, #reset{
     color: #A4161A;
     font-size: 1rem;
     font-weight: bold;

@@ -11,8 +11,8 @@ function PanelTask() {
         </div>
         <section className='section-task'>
             {
-                task.tasks.map((val)=>{
-                    return <Task key={val.pos} data={val}/>
+                task.tasks.map((val, key)=>{
+                    return <Task key={key} data={val}/>
                 })
             }
         </section>

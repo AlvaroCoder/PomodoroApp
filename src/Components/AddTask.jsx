@@ -20,7 +20,7 @@ function AddTask() {
   }
   const addTaskNew = (evt)=>{
     evt.preventDefault();
-    if (data.title === "" ) return alert('Fill the form');
+    if (data.title === "" ) return alert('Completa el formulario');
     setIndex(index+1);
     tasks.addTask(data, index, pomodoros);
     setData({title : '', description : ''})

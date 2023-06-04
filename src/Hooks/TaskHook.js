@@ -19,7 +19,8 @@ export const ContextTask = createContext({
     },
     changeStatus : ()=>{
     },
-    updatePomodoros : ()=>{}
+    updatePomodoros : ()=>{},
+    deleteTask : (index)=>{}
 });
 export const ContextTime = createContext({
     times : [
@@ -45,8 +46,8 @@ export function useTime() {
 export default function TaskContext({children}) {
     const [tasks, setTasks] = useState([{
         pos : 0,
-        nombre : 'asd',
-        description : 'd',
+        nombre : 'Programar',
+        description : '',
         seleccionado : true,
         terminado : false,
         pomodoros : 1,
@@ -57,6 +58,13 @@ export default function TaskContext({children}) {
     const [timeValue, setTimeValue] = useState(1500);
     function addTask(data, index, pomodoros) {
         setTasks(task => [...task, {pos: index,nombre : data.title, description : data.description || '', seleccionado : false, terminado: false, pomodoros : pomodoros, pomodorosEnd:0}])
+    }
+    function deleteTask(index) {
+        console.log(tasks[index]);
+        const arr = tasks.filter(task => task.pos !== index);
+        console.log(arr);
+        setTasks(arr);
+        console.log(tasks);
     }
     function changeStatus(pos) {
         let oldArr = [...tasks]
@@ -76,7 +84,6 @@ export default function TaskContext({children}) {
     }
     function startTimer() {
         const arr_time = [...times].filter((el)=>el.isSelected)[0];
-        const timeVal = arr_time.time
         const c = arr_time.constant
         const pos = arr_time.pos
         setTimeValue(defaultTime[pos].time);
@@ -86,7 +93,11 @@ export default function TaskContext({children}) {
         }, 1000);
     }
     function resetTime() {
-        setTimes(defaultTime)
+        clearInterval(startTimer())
+        const arr_time = [...times].filter((el)=>el.isSelected)[0];
+        const pos = arr_time.pos
+        setTimeValue(defaultTime[pos].time)
+        setConstant(defaultTime[pos].constant)
     }
     function updatePomodoros() {
         const arr = [...tasks]
@@ -97,7 +108,7 @@ export default function TaskContext({children}) {
         }
     }
     return (
-        <ContextTask.Provider value={{tasks, addTask, changeStatus, updatePomodoros}} >
+        <ContextTask.Provider value={{tasks, deleteTask, addTask, changeStatus, updatePomodoros}} >
             <ContextTime.Provider value={{times, changeTime, startTimer, timeValue, constant, resetTime}}>
                 {children}
             </ContextTime.Provider>
