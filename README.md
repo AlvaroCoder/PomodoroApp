@@ -7,3 +7,6 @@ Una aplicación sencilla de pomodoro.
 
 Aun está en desarrollo
 
+## Visita
+Puedes visitar la página aquí [Pomodoro App](https://pomodoro-app-lilac-kappa.vercel.app/) Para el hosting utilizo la plataforma de Vercel
+ 
