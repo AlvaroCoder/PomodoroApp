@@ -49,11 +49,11 @@ function Timer({title}) {
       <div className='timer'>
         <ThemeProvider theme={theme}>
           <CircularProgress
-            thickness={2}
+            thickness={1}
             color="neutral"
             variant={'determinate'}
             value={100-(constant)}
-            size={250}
+            size={320}
           />
         </ThemeProvider>
         <div className='container-label-timer'>
@@ -64,11 +64,11 @@ function Timer({title}) {
         {
           start ? 
           <div>
-            <button id='button-stop' onClick={changeStart}><p id='pause'  >PAUSE</p></button> 
-            <button id='button-reset' onClick={changeReset}><p id='reset'>RESET</p></button>
+            <button id='button-stop' onClick={changeStart}><i class='bx bx-pause icon-btn'></i></button> 
+            <button id='button-reset' onClick={changeReset}><i class='bx bxs-square icon-btn'></i></button>
           </div>
           : <div>
-            <button id='button-play' onClick={changeStart}><p id='play'>PLAY</p></button> 
+            <button id='button-play' onClick={changeStart}><i class='bx bx-play icon-btn'></i></button> 
               </div>
         }
       </div>

@@ -1,14 +1,18 @@
 import React from 'react'
-import { AddTask, PomodoroTitle, Timer } from '../Components';
+import { AddTask, Footer, PomodoroTitle, Timer } from '../Components';
 import { useTask } from '../Hooks/TaskHook';
+import PanelTask from './PanelTask';
 
 function PanelTimer() {
-  const taskContext = useTask().tasks;
+  const taskHook = useTask()
+  const title = taskHook.tasks[0] ? taskHook.tasks.filter(val=>val.seleccionado)[0].nombre : 'Empecemos';
   return (
     <div className='panel-timer'>
         <PomodoroTitle></PomodoroTitle>
-        <Timer title={taskContext.filter(val=>val.seleccionado)[0].nombre}></Timer>
+        <Timer title={title}></Timer>
+        <PanelTask></PanelTask>
         <AddTask></AddTask>
+        <Footer></Footer>
     </div>
   )
 }

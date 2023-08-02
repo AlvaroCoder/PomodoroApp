@@ -1,34 +1,65 @@
-import React from 'react'
-import check_complete from '../Assets/Icons/check_complete.png';
-import check_incomplete from '../Assets/Icons/check_incomplete.png';
-import { useTask } from '../Hooks/TaskHook';
-function Task({data}) {
+import React, { useState } from 'react'
+import { useTask, useTime } from '../Hooks/TaskHook';
+function Task({data,index}) {
     const taskContext = useTask();
-    const {pos,nombre,description, seleccionado, terminado, pomodoros, pomodorosEnd} = data
-
+    const timerContext = useTime();
+    const {nombre,descripcion, prioridad,seleccionado, duracion, pomodoros, pomodorosEnd} = data
+    const [copiado, setCopiado] = useState(false);
     const handleClick =(e)=>{
         e.preventDefault();
-        taskContext.changeStatus(pos);
+        taskContext.changeStatus(index);
+        timerContext.changeTimerDuration(duracion);
     }
     const DeleteTask = (e)=>{
-        taskContext.deleteTask(pos);
+        e.preventDefault();
+        taskContext.deleteTask(index);
+    }
+     const copyText = async (text)=>{
+        if ('clipboard' in navigator) {
+            return await navigator.clipboard.writeText(text)
+        }else{
+            return document.execCommand('copy',true, text);
+        }
+    }
+    const handleClickDescripcion =()=>{
+        copyText(descripcion)
+        .then(()=>{
+            setCopiado(true);
+            setTimeout(()=>{
+                setCopiado(false);
+            },1500)
+        }).catch((err)=>{
+            console.log(err);
+        })
     }
   return (
     <div id={seleccionado ? 'task-selected':''} className='task' onClick={handleClick}>
         <div className='task-top'>
-            {terminado ?  <img className='icon' src={check_complete} alt='icon'></img> : <img className='icon' src={check_incomplete} alt='icon'></img>}
+            <div className='task-color'>
+                <div id={prioridad} className='circle'>
+                </div>
+            </div>
             <div className='task-name'>
-                <p>{nombre}</p>
+                <p className='name'>{nombre}</p>
+                <p className='duration'>{duracion/60} min</p>
             </div>
             <div className='pomodoros-task'>
-                <span>{pomodorosEnd}/{pomodoros}</span>
+                <p><span className='pomEnd'>{pomodorosEnd}</span>/{pomodoros}</p>
             </div>
-            <div className='delete'>
-                <i onClick={DeleteTask} className='bx bx-trash text-delete'></i>
-            </div>
+            <section className='sec-icons'>
+                <div className='check'>
+                    <i className='bx bx-check'></i>
+                </div>
+                <div className='delete'>
+                    <i onClick={DeleteTask} className='bx bxs-trash-alt'></i>
+                </div>
+            </section>
         </div>
-        {description !=='' && <div className='task-bottom'>
-            <p>{description}</p>
+        {descripcion !=='' && <div onClick={handleClickDescripcion} className='task-bottom'>
+            {copiado ? <div className='success'>
+                <p>Copiado !</p>
+            </div> : null}
+            <p>{descripcion}</p>
         </div>}
         
     </div>

@@ -11,13 +11,18 @@ export const ContextTask = createContext({
         nombre : "",
         description : "",
         terminado : false,
+        prioridad : 0,
+        duracion : 0,
         seleccionado : false,
-        pomodoros : 1,
+        pomodoros : 0,
         pomodorosEnd : 0
     }],
+    active : false,
     addTask : ()=>{
     },
     changeStatus : ()=>{
+    },
+    changeActive:()=>{
     },
     updatePomodoros : ()=>{},
     deleteTask : (index)=>{}
@@ -30,6 +35,7 @@ export const ContextTime = createContext({
     ],
     changeTime : ()=>{
     },
+    changeTimerDuration : ()=>{},
     startTimer : ()=>{
     },
     resetTime : ()=>{
@@ -44,34 +50,38 @@ export function useTime() {
     return useContext(ContextTime);
 }
 export default function TaskContext({children}) {
-    const [tasks, setTasks] = useState([{
-        pos : 0,
-        nombre : 'Programar',
-        description : '',
-        seleccionado : true,
-        terminado : false,
-        pomodoros : 1,
-        pomodorosEnd : 0
-    }]);
+    const [tasks, setTasks] = useState([]);
     const [constant, setConstant] = useState(0);
     const [times, setTimes] = useState(defaultTime);
     const [timeValue, setTimeValue] = useState(1500);
-    function addTask(data, index, pomodoros) {
-        setTasks(task => [...task, {pos: index,nombre : data.title, description : data.description || '', seleccionado : false, terminado: false, pomodoros : pomodoros, pomodorosEnd:0}])
+    const [active, setActive] = useState(false);
+    function addTask(data) {
+        if(tasks.length === 0){
+            setTasks(task => [...task, {nombre : data.nombre, descripcion : data.descripcion || '', seleccionado : true, terminado: false, prioridad : data.prioridad, duracion: data.duracion,pomodoros : data.pomodoros, pomodorosEnd:0}]);
+            return;
+        }
+        setTasks(task => [...task, {nombre : data.nombre, descripcion : data.descripcion || '', seleccionado : false, terminado: false, prioridad : data.prioridad, duracion: data.duracion,pomodoros : data.pomodoros, pomodorosEnd:0}]);
     }
     function deleteTask(index) {
-        console.log(tasks[index]);
-        const arr = tasks.filter(task => task.pos !== index);
-        console.log(arr);
-        setTasks(arr);
-        console.log(tasks);
+        let nombreActual = tasks[index].nombre
+        setTasks(current=>current.filter((task)=>task.nombre!==nombreActual));
     }
-    function changeStatus(pos) {
+    function changeStatus(posActual) {
         let oldArr = [...tasks]
-        let posi = oldArr.filter((el)=>el.seleccionado)[0].pos
-        oldArr[posi].seleccionado = false
-        oldArr[pos].seleccionado = true
+        let posCount =0
+        let posSeleccionado = oldArr.map((val)=>{
+            if (val.seleccionado) {
+                return posCount
+            }
+            posCount+=1;
+            return 0;
+        }).reduce((acumluador,current)=>acumluador+current);
+        oldArr[posSeleccionado].seleccionado = false
+        oldArr[posActual].seleccionado = true
         setTasks(oldArr);
+    }
+    function changeActive() {
+        setActive(!active)
     }
     function changeTime(pos) {
         let oldArr = [...times]
@@ -81,6 +91,10 @@ export default function TaskContext({children}) {
         setTimeValue(defaultTime[pos].time)
         setConstant(0)
         setTimes(oldArr);
+    }
+    function changeTimerDuration(duration) {
+        setTimeValue(duration);
+        setConstant(0);
     }
     function startTimer() {
         const arr_time = [...times].filter((el)=>el.isSelected)[0];
@@ -108,8 +122,8 @@ export default function TaskContext({children}) {
         }
     }
     return (
-        <ContextTask.Provider value={{tasks, deleteTask, addTask, changeStatus, updatePomodoros}} >
-            <ContextTime.Provider value={{times, changeTime, startTimer, timeValue, constant, resetTime}}>
+        <ContextTask.Provider value={{tasks, deleteTask, addTask, changeStatus, updatePomodoros, changeActive, active}} >
+            <ContextTime.Provider value={{times, changeTime, startTimer, timeValue, constant, resetTime, changeTimerDuration}}>
                 {children}
             </ContextTime.Provider>
         </ContextTask.Provider>

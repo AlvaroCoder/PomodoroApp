@@ -1,9 +1,0 @@
-@import url('https://fonts.googleapis.com/css2?family=Inria+Serif&family=Montserrat:ital,wght@0,200;0,400;0,500;0,600;1,400&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,600;1,600&display=swap');
-
-body{
-  margin: 0;
-  padding: 0;
-  font-family: 'Inria Serif', serif;
-  font-family: 'Montserrat', sans-serif;
-  font-family: 'Poppins', sans-serif;
-}
