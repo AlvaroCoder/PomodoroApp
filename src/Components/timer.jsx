@@ -1,15 +1,15 @@
 import React, {useState, useEffect} from 'react'
 import { CircularProgress, createTheme, ThemeProvider } from '@mui/material';
-import { useTask, useTime } from '../Hooks/TaskHook';
+import {  useTask, useTime } from '../Hooks/TaskHook';
 
 let s;
 function Timer({title}) {
+  const {tasks} = useTask();
   const { timeValue,constant,startTimer, resetTime } = useTime();
-  const { updatePomodoros } = useTask();
   const [start, setStart] = useState(false);
   
   useEffect(() => {
-    if (start ) {
+    if (start) {
       s = startTimer();
     } 
     if (!start) {
@@ -19,7 +19,8 @@ function Timer({title}) {
 
   useEffect(() => {
     if (timeValue <= 0) {
-      setStart(s=> !s)
+      setStart(s=> !s);
+      resetTime();
     }
   }, [timeValue])
   
@@ -34,7 +35,6 @@ function Timer({title}) {
   const changeStart =(evt)=>{
     evt.preventDefault();
     setStart(s=>!s);
-    console.log(start);
   }
   const changeReset = (evt)=>{
     evt.preventDefault();

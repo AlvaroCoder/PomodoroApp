@@ -4,10 +4,11 @@ import {  useTask } from '../Hooks/TaskHook';
 
 function PanelTask() {
     const task = useTask();
+    const listTask = task.tasks;
     return (
     <section className='container-task'>
         <section className='section-task'>
-            {task.tasks.map((val, key)=><Task key={key} index={key} data={val}/>)}
+            {listTask.map((val, idx)=><Task key={idx} index={idx} data={val} deleteTask={()=>task.deleteTask(idx)}/>)}
         </section>
     </section>
     )

@@ -99,7 +99,7 @@ function PanelAdd() {
                 </div>
                 <div className='ctn-inputAdd'>
                     <input required name='nombre' value={inputData.nombre} onChange={handleInput} className='inputAdd' placeholder='¿Que tareas vas a realizar?'></input>
-                    <input required name='descripcion' value={inputData.descripcion} onChange={handleInput} className='inputAdd' placeholder='Descripcion (opcional)'></input>
+                    <input name='descripcion' value={inputData.descripcion} onChange={handleInput} className='inputAdd' placeholder='Descripcion (opcional)'></input>
                 </div>
             </div>
             <div className='ctn-prioridad'>

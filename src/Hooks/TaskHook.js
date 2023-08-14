@@ -63,47 +63,47 @@ export default function TaskContext({children}) {
         setTasks(task => [...task, {nombre : data.nombre, descripcion : data.descripcion || '', seleccionado : false, terminado: false, prioridad : data.prioridad, duracion: data.duracion,pomodoros : data.pomodoros, pomodorosEnd:0}]);
     }
     function deleteTask(index) {
-        let nombreActual = tasks[index].nombre
-        setTasks(current=>current.filter((task)=>task.nombre!==nombreActual));
+        setTasks(current=>{
+            return current.filter((_,idx)=>idx!==index);
+        });
     }
     function changeStatus(posActual) {
-        let oldArr = [...tasks]
-        let posCount =0
-        let posSeleccionado = oldArr.map((val)=>{
-            if (val.seleccionado) {
-                return posCount
+        const newArr = tasks.map((val, index)=>{
+            if (index===posActual) {
+                return {'nombre' : val.nombre, 'descripcion' : val.descripcion || '', 'seleccionado' : true, 'terminado': false, 'prioridad' : val.prioridad, 'duracion': val.duracion,'pomodoros' : val.pomodoros, 'pomodorosEnd':0}
             }
-            posCount+=1;
-            return 0;
-        }).reduce((acumluador,current)=>acumluador+current);
-        oldArr[posSeleccionado].seleccionado = false
-        oldArr[posActual].seleccionado = true
-        setTasks(oldArr);
+            return {'nombre' : val.nombre, 'descripcion' : val.descripcion || '', 'seleccionado' : false, 'terminado': false, 'prioridad' : val.prioridad, 'duracion': val.duracion,'pomodoros' : val.pomodoros, 'pomodorosEnd':0}
+
+        })
+        setTasks(newArr);
     }
     function changeActive() {
         setActive(!active)
     }
     function changeTime(pos) {
-        let oldArr = [...times]
-        let posi = oldArr.filter((el)=>el.isSelected)[0].pos
-        oldArr[posi].isSelected = false
-        oldArr[pos].isSelected = true
+        const newArr = times.map((val,index)=>{
+            if (index===pos) {
+                return {time : val.time, isSelected : true, pos : val.pos,name : val.name, constant : val.constant}
+            }
+            return {time : val.time, isSelected : false, pos : val.pos,name : val.name, constant : val.constant}
+
+        })
         setTimeValue(defaultTime[pos].time)
         setConstant(0)
-        setTimes(oldArr);
+        setTimes(newArr);
     }
     function changeTimerDuration(duration) {
         setTimeValue(duration);
         setConstant(0);
     }
     function startTimer() {
-        const arr_time = [...times].filter((el)=>el.isSelected)[0];
-        const c = arr_time.constant
-        const pos = arr_time.pos
-        setTimeValue(defaultTime[pos].time);
+        
+        const timeSelected = tasks[0] ? tasks.filter((val)=>val.seleccionado)[0].duracion :  times.filter((el)=>el.isSelected)[0].time;
+        const constantTime = 100 / timeSelected
+        setTimeValue(timeSelected);
         return setInterval(()=>{
             setTimeValue(val=>val-1);
-            setConstant(val=>val+c);    
+            setConstant(val=>val+constantTime);    
         }, 1000);
     }
     function resetTime() {

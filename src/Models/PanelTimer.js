@@ -5,7 +5,8 @@ import PanelTask from './PanelTask';
 
 function PanelTimer() {
   const taskHook = useTask()
-  const title = taskHook.tasks[0] ? taskHook.tasks.filter(val=>val.seleccionado)[0].nombre : 'Empecemos';
+  const taskList = taskHook.tasks
+  const title = taskList[0] ? taskList.filter((val)=>val.seleccionado).length > 0 ? taskHook.tasks.filter(val=>val.seleccionado)[0].nombre : "Empecemos" : 'Empecemos';
   return (
     <div className='panel-timer'>
         <PomodoroTitle></PomodoroTitle>
