@@ -3,7 +3,7 @@ import { useTask, useTime } from '../Hooks/TaskHook';
 function Task({data,index, deleteTask}) {
     const taskContext = useTask();
     const timerContext = useTime();
-    const {nombre,descripcion, prioridad,seleccionado, duracion, pomodoros, pomodorosEnd} = data
+    const {nombre,descripcion, prioridad,seleccionado, duracion, pomodoros, pomodorosEnd, pausa} = data
     const [copiado, setCopiado] = useState(false);
     const handleClick =(e)=>{
         e.preventDefault();
@@ -29,11 +29,8 @@ function Task({data,index, deleteTask}) {
         })
     }
   return (
-    <div id={seleccionado ? 'task-selected':''} className='task' >
+    <div id={seleccionado ? 'task-selected': pausa ? 'task-pausa': ''} className='task' >
         <div className='sec-icons'>
-            <div className='check'>
-                <i className='bx bx-check active'></i>
-            </div>
             <div className='delete' onClick={deleteTask}>
                 <i className='bx bxs-trash-alt'></i>
             </div>

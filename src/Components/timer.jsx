@@ -4,7 +4,7 @@ import {  useTask, useTime } from '../Hooks/TaskHook';
 
 let s;
 function Timer({title}) {
-  const {tasks} = useTask();
+  const {incrementFinishPom} = useTask();
   const { timeValue,constant,startTimer, resetTime } = useTime();
   const [start, setStart] = useState(false);
   
@@ -21,6 +21,7 @@ function Timer({title}) {
     if (timeValue <= 0) {
       setStart(s=> !s);
       resetTime();
+      incrementFinishPom()
     }
   }, [timeValue])
   

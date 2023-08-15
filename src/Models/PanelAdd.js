@@ -73,8 +73,8 @@ function PanelAdd() {
     }
     const saveTaskData=(e)=>{
         e.preventDefault();
-        let idPrioritie = priotities.filter((val)=>val.active)[0].id
-        let duracionTarea = data100.filter((val)=>val.active)[0].index * 60
+        let idPrioritie = priotities.filter((val)=>val.active)[0].id;
+        let duracionTarea = data100.filter((val)=>val.active)[0].index * 60;
         let pomodoros = data10.filter((val)=>val.active)[0].index;
         let data2Send ={
             nombre : inputData.nombre,

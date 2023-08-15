@@ -15,7 +15,8 @@ export const ContextTask = createContext({
         duracion : 0,
         seleccionado : false,
         pomodoros : 0,
-        pomodorosEnd : 0
+        pomodorosEnd : 0,
+        pausa : false
     }],
     active : false,
     addTask : ()=>{
@@ -25,7 +26,11 @@ export const ContextTask = createContext({
     changeActive:()=>{
     },
     updatePomodoros : ()=>{},
-    deleteTask : (index)=>{}
+    incrementFinishPom : ()=>{},
+    deleteTask : (index)=>{},
+    deleteAll : ()=>{},
+    filterByUrgency : ()=>{},
+    filterByTime : ()=>{}
 });
 export const ContextTime = createContext({
     times : [
@@ -57,22 +62,42 @@ export default function TaskContext({children}) {
     const [active, setActive] = useState(false);
     function addTask(data) {
         if(tasks.length === 0){
-            setTasks(task => [...task, {nombre : data.nombre, descripcion : data.descripcion || '', seleccionado : true, terminado: false, prioridad : data.prioridad, duracion: data.duracion,pomodoros : data.pomodoros, pomodorosEnd:0}]);
+            setTasks(task => [...task, {nombre : data.nombre, descripcion : data.descripcion, seleccionado : true, terminado: false, pausa : false,prioridad : data.prioridad, duracion: data.duracion,pomodoros : data.pomodoros, pomodorosEnd:0}]);
             return;
         }
-        setTasks(task => [...task, {nombre : data.nombre, descripcion : data.descripcion || '', seleccionado : false, terminado: false, prioridad : data.prioridad, duracion: data.duracion,pomodoros : data.pomodoros, pomodorosEnd:0}]);
+        setTasks(task => [...task, {nombre : data.nombre, descripcion : data.descripcion, seleccionado : false, terminado: false, pausa : false,prioridad : data.prioridad, duracion: data.duracion,pomodoros : data.pomodoros, pomodorosEnd:0}]);
     }
     function deleteTask(index) {
         setTasks(current=>{
             return current.filter((_,idx)=>idx!==index);
         });
     }
+    function deleteAll() {
+        setTasks([])
+    }
+
+    function filterByUrgency() {
+        const highTasks = tasks.filter((val)=>val.prioridad === 'red');
+        const midTasks = tasks.filter((val)=>val.prioridad === 'yellow');
+        const lowTasks = tasks.filter((val)=>val.prioridad === 'green');
+        const newListTask = highTasks.concat(midTasks, lowTasks)
+        setTasks(newListTask);
+    }
+    function filterByTime() {
+        let oldListTasks = [...tasks]
+        let pivot = oldListTasks[oldListTasks.length-1].duracion
+        let lowTasks = oldListTasks.filter((val)=>val.duracion< pivot);
+        let highTasks = oldListTasks.filter((val)=>val.duracion>= pivot);
+        const newListTask = highTasks.concat(lowTasks)
+        console.log(newListTask);
+        setTasks(newListTask)
+    }
     function changeStatus(posActual) {
         const newArr = tasks.map((val, index)=>{
             if (index===posActual) {
-                return {'nombre' : val.nombre, 'descripcion' : val.descripcion || '', 'seleccionado' : true, 'terminado': false, 'prioridad' : val.prioridad, 'duracion': val.duracion,'pomodoros' : val.pomodoros, 'pomodorosEnd':0}
+                return {'nombre' : val.nombre, 'descripcion' : val.descripcion , 'seleccionado' : true, 'terminado': false, 'prioridad' : val.prioridad, 'pausa':false,'duracion': val.duracion,'pomodoros' : val.pomodoros, 'pomodorosEnd':0}
             }
-            return {'nombre' : val.nombre, 'descripcion' : val.descripcion || '', 'seleccionado' : false, 'terminado': false, 'prioridad' : val.prioridad, 'duracion': val.duracion,'pomodoros' : val.pomodoros, 'pomodorosEnd':0}
+            return {'nombre' : val.nombre, 'descripcion' : val.descripcion , 'seleccionado' : false, 'terminado': false, 'prioridad' : val.prioridad, 'pausa':false ,'duracion': val.duracion,'pomodoros' : val.pomodoros, 'pomodorosEnd':0}
 
         })
         setTasks(newArr);
@@ -87,7 +112,19 @@ export default function TaskContext({children}) {
             }
             return {time : val.time, isSelected : false, pos : val.pos,name : val.name, constant : val.constant}
 
-        })
+        });
+        const stillSelectd = tasks.filter((val)=>val.seleccionado)
+        if (stillSelectd[0]) {
+            const taskSelected =  tasks.filter((val)=>val.seleccionado)[0].nombre
+            const newListTask = tasks.map((val)=>{
+                if (val.nombre ===  taskSelected) {
+                    return {nombre : val.nombre, descripcion : val.descripcion , seleccionado : false,pausa : true, terminado: false, prioridad : val.prioridad, duracion: val.duracion,pomodoros : val.pomodoros, pomodorosEnd:val.pomodorosEnd}
+                }
+                return {nombre : val.nombre, descripcion : val.descripcion , seleccionado : false, pausa : false,terminado: false, prioridad : val.prioridad, duracion: val.duracion,pomodoros : val.pomodoros, pomodorosEnd:val.pomodorosEnd}
+    
+            });
+            setTasks(newListTask);
+        }
         setTimeValue(defaultTime[pos].time)
         setConstant(0)
         setTimes(newArr);
@@ -97,8 +134,7 @@ export default function TaskContext({children}) {
         setConstant(0);
     }
     function startTimer() {
-        
-        const timeSelected = tasks[0] ? tasks.filter((val)=>val.seleccionado)[0].duracion :  times.filter((el)=>el.isSelected)[0].time;
+        const timeSelected = tasks[0]  ? tasks.filter((val)=>val.seleccionado)[0] ?  tasks.filter((val)=>val.seleccionado)[0].duracion : times.filter((el)=>el.isSelected)[0].time :  times.filter((el)=>el.isSelected)[0].time;
         const constantTime = 100 / timeSelected
         setTimeValue(timeSelected);
         return setInterval(()=>{
@@ -121,8 +157,18 @@ export default function TaskContext({children}) {
             setTasks(arr);    
         }
     }
+    function incrementFinishPom() {
+        const nameTask = tasks.filter((val)=>val.seleccionado)[0].nombre;
+        const newListTask = tasks.map((val)=>{
+            if (val.nombre === nameTask) {
+                return {nombre : val.nombre, descripcion : val.descripcion , seleccionado : true, pausa : false,terminado: false, prioridad : val.prioridad, duracion: val.duracion,pomodoros : val.pomodoros, pomodorosEnd:val.pomodorosEnd+1}
+            }
+            return {nombre : val.nombre, descripcion : val.descripcion , seleccionado : false, pausa : false,terminado: false, prioridad : val.prioridad, duracion: val.duracion,pomodoros : val.pomodoros, pomodorosEnd:val.pomodorosEnd}
+        });
+        setTasks(newListTask);
+    }
     return (
-        <ContextTask.Provider value={{tasks, deleteTask, addTask, changeStatus, updatePomodoros, changeActive, active}} >
+        <ContextTask.Provider value={{tasks, deleteTask, addTask, changeStatus, updatePomodoros, changeActive, active, incrementFinishPom, filterByTime, filterByUrgency, deleteAll}} >
             <ContextTime.Provider value={{times, changeTime, startTimer, timeValue, constant, resetTime, changeTimerDuration}}>
                 {children}
             </ContextTime.Provider>

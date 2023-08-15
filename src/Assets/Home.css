@@ -34,6 +34,7 @@ nav{
 }
 nav .ctn-items-nav{
     min-width: 500px;
+    height: 10vh;
     border-bottom: 1px solid var(--gray-2);
     display: flex;
     flex-direction: row;
@@ -91,11 +92,13 @@ p{
 }
 .container-task{
     width: 100%;
+    max-width: 500px;
     height: auto;
     margin-top: 40px;
     padding: 0px 2pc 0px 2pc;
     box-sizing: border-box;
     display: flex;
+    flex-direction: column;
     justify-content: center;
 }
 .section-task{
@@ -107,6 +110,63 @@ p{
     display: grid;
     grid-template-columns: repeat(auto-fill,minmax(300px, 1fr));
     grid-gap: .5pc;
+}
+.container-task .section-options{
+    width: 100%;
+    height: 10vh;
+    border-bottom: var(--gray-1) 1px solid;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+.section-options .options{
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 10px;
+    border: var(--gray-1) 1px solid;
+}
+.section-options .options-box{
+    position: absolute;
+    top: 50px;
+    right: 0;
+    max-width: 155px;
+    width: 100%;
+    height: 22vh;
+    border-radius: 5px;
+    background-color: var(--white);
+    border: var(--gray-1) 1px solid;
+    padding: 10px 0px;
+    z-index: 300;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.options-box .list-options{
+    margin: 0;
+    width: 100%;
+    list-style: none;
+    text-decoration: none;
+    color: var(--primary-color);  
+    padding: 10px 15px;
+}
+.list-options .option{
+    border-radius: 5px;
+    margin-top: 5px;
+    width: 100%;
+    cursor: pointer;
+}
+.list-options .option:hover{
+    background-color: var(--gray-1);
+}
+.section-options .options:hover{
+    background-color: #f5f3f46e;
 }
 .section-task .task{
     position: relative;
@@ -147,6 +207,9 @@ p{
 }
 #task-selected{
     border-left: var(--red-3) 6px solid;
+}
+#task-pausa{
+    border-left: #660709c2 6px solid;
 }
 .task-top{
     display: flex;
@@ -249,14 +312,6 @@ p{
     border-radius: 10px;
     color: var(--primary-color);
     font-size: 1.2rem;
-}
-.sec-icons .check{
-    width: 20px;
-    height: 20px;
-    color: var(--white);
-    text-align: center;
-    border-radius: 2px;
-    border: 2px solid var(--black);
 }
 
 .pomodoros-task .pomEnd{
@@ -675,6 +730,7 @@ textarea{
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
+    padding-bottom: 30px;
 }
 #cancel-btn{
     background-color: var(--gray-3);

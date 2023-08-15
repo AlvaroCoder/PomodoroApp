@@ -9,9 +9,9 @@ function NavBar() {
         </div>
         <div className='items-nav'>
           <ul>
-            <li className='item'><span><i class='bx bxs-report'></i></span></li>
-            <li className='item'><span><i class='bx bx-cog'></i></span></li>
-            <li className='item'><span><i class='bx bxs-user-circle'></i></span></li>
+            {/* <li className='item'><span><i class='bx bxs-report'></i></span></li>
+            <li className='item'><span><i class='bx bx-cog'></i></span></li> */}
+            {/* <li className='item'><span><i class='bx bxs-user-circle'></i></span></li> */}
           </ul>
         </div>
       </div>
